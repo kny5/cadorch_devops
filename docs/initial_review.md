@@ -45,14 +45,14 @@ A **CADOrchestrator** instance is embedded within the **Nimble** repository, cre
 
 ### 2. Dockerfiles  
 
-#### Example Repository:  
+#### cadorch-Example Repository:
 
-<script src="https://asciinema.org/a/mbBiRYmNYu29LVuD9oKhF3Jr1.js" id="asciicast-mbBiRYmNYu29LVuD9oKhF3Jr1" async="true"></script>
+[![asciicast](https://asciinema.org/a/mbBiRYmNYu29LVuD9oKhF3Jr1.svg)](https://asciinema.org/a/mbBiRYmNYu29LVuD9oKhF3Jr1)
 
 
-#### Nimble Repository:  
+#### cadorch-Nimble Repository:  
 
-<script src="https://asciinema.org/a/UI23nhtITpgbRM2fUPYmzTylx.js" id="asciicast-UI23nhtITpgbRM2fUPYmzTylx" async="true"></script>
+[![asciicast](https://asciinema.org/a/UI23nhtITpgbRM2fUPYmzTylx.svg)](https://asciinema.org/a/UI23nhtITpgbRM2fUPYmzTylx)
 
 ### 3. Running with XVFB  
 
