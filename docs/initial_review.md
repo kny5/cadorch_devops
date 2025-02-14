@@ -62,10 +62,12 @@ A **CADOrchestrator** instance is embedded within the **Nimble cadorchestrator**
 
 **Command:** For running server at 0.0.0.0:8000, Accessible for Docker container operation.
 
-xvfb-run -a --server-args="-screen 0 1024x768x24" cadorchestrator serve --production
+`xvfb-run -a --server-args="-screen 0 1024x768x24" cadorchestrator serve --production`
 
 **Command:** for headless (without web server UI) CADorchestrator generation.
 
-xvfb-run -a --server-args="-screen 0 1024x768x24" cadorchestrator --headless generate '{"device-ids": ["NUC10i5FNH", "Raspberry_Pi_4B", "Raspberry_Pi_4B"]}'
+`xvfb-run -a --server-args="-screen 0 1024x768x24" cadorchestrator --headless generate '{"device-ids": ["NUC10i5FNH", "Raspberry_Pi_4B", "Raspberry_Pi_4B"]}'`
 
-## WIP
+## Dockerfile for Nimble Repository:
+
+WIP
