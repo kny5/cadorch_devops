@@ -17,9 +17,9 @@ The CADORCHESTRATOR project, needs some review and basic optimizations, like con
 
 ## Actions:
 
-1. [Initial Assessment](https://github.com/kny5/cadorch_devops/docs/initial_review.md)  
-2. [CADOrchestrator Dockerfile usage instructions](https://github.com/kny5/cadorch_devops/docker/usage.md)  
-3. [Screenshots](https://github.com/kny5/cadorch_devops/docs)  
+1. [Initial Assessment](https://github.com/kny5/cadorch_devops/blob/main/docs/initial_review.md)  
+2. [CADOrchestrator Dockerfile usage](https://github.com/kny5/cadorch_devops/blob/main/docker/usage.md)
+3. [Screenshots](https://github.com/kny5/cadorch_devops/blob/main/docs)  
 
 This repository is a work in progress.
 
