@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     xvfb \
-    x11-xserver-utils \
     openscad \
     fontconfig \
     mesa-utils \
@@ -39,14 +38,13 @@ EXPOSE 8000
 # Set up environment for headless execution
 ENV DISPLAY=:99
 
-# Generate from hardcoded configuration options
+# Generate JSON from hardcoded configuration options
 RUN gen_nimble_conf_options
 
-# Test using headless generator
-RUN xvfb-run -a --server-args="-screen 0 1024x768x24" cadorchestrator --headless generate '{"device-ids": ["NUC10i5FNH", "Raspberry_Pi_4B", "Raspberry_Pi_4B"]}'
+# Test generator
+RUN xvfb-run --server-args="-screen 0 1024x768x24" cadorchestrator --headless generate '{"device-ids": ["NUC10i5FNH", "Raspberry_Pi_4B", "Raspberry_Pi_4B"]}'
 
 # Set server at 0.0.0.0:8000
-
 COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-CMD ["/app/entrypoint.sh"]
+RUN ["chmod","+x","entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
