@@ -17,24 +17,40 @@ RUN apt-get update && apt-get install -y \
     libosmesa6 \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm
+
 WORKDIR /app
-
-# Clone the repository
-RUN git clone https://github.com/Wakoma/nimble.git .
-
-# Set up and activate virtual environment
 ENV VIRTUAL_ENV=/app/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+WORKDIR /app
+RUN git clone https://gitlab.com/gitbuilding/cadorchestrator.git --branch server_hotfix_01
+
+WORKDIR /app/cadorchestrator/js/cadorchestrator-app
+RUN npm install && \
+    npm run build
+
+WORKDIR /app/cadorchestrator
+RUN pip install -e .
+
+# Set working directory
+WORKDIR /app
+# Clone the repository
+# RUN git clone https://github.com/Wakoma/nimble.git .
+RUN git clone https://github.com/Wakoma/nimble.git --branch devops_hotfix_03_patch
+
 # Install dependencies:
+WORKDIR /app/nimble
 RUN pip install -e .
 RUN pip install scad2gltf
 
 # Use port 8000
 EXPOSE 8000
 
+#WORKDIR /app
 # Set up environment for headless execution
 ENV DISPLAY=:99
 
@@ -44,7 +60,10 @@ RUN gen_nimble_conf_options
 # Test generator
 RUN xvfb-run --server-args="-screen 0 1024x768x24" cadorchestrator --headless generate '{"device-ids": ["NUC10i5FNH", "Raspberry_Pi_4B", "Raspberry_Pi_4B"]}'
 
+WORKDIR /app
 # Set server at 0.0.0.0:8000
 COPY entrypoint.sh /app/entrypoint.sh
 RUN ["chmod","+x","entrypoint.sh"]
+
+WORKDIR /app/nimble
 ENTRYPOINT ["/app/entrypoint.sh"]
