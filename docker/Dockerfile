@@ -27,6 +27,12 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR /app
+RUN git clone https://github.com/kny5/cq-cli.git --branch server_hotfix_01
+
+WORKDIR /app/cq-cli
+RUN pip install -e .
+
+WORKDIR /app
 RUN git clone https://gitlab.com/gitbuilding/cadorchestrator.git --branch server_hotfix_01
 
 WORKDIR /app/cadorchestrator/js/cadorchestrator-app
@@ -36,11 +42,8 @@ RUN npm install && \
 WORKDIR /app/cadorchestrator
 RUN pip install -e .
 
-# Set working directory
 WORKDIR /app
-# Clone the repository
-# RUN git clone https://github.com/Wakoma/nimble.git .
-RUN git clone https://github.com/Wakoma/nimble.git --branch devops_hotfix_03_patch
+RUN git clone https://github.com/Wakoma/nimble.git --branch server_hotfix_01
 
 # Install dependencies:
 WORKDIR /app/nimble
