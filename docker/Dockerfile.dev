@@ -1,0 +1,69 @@
+FROM ubuntu:latest
+
+# Install Linux dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-venv \
+    python3-pip \
+    git \
+    curl \
+    xvfb \
+    openscad \
+    fontconfig \
+    mesa-utils \
+    libgl1 \
+    libgl1-mesa-dev \
+    libglu1-mesa \
+    libosmesa6 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+ENV VIRTUAL_ENV=/app/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+COPY cq-cli-nimble/ /app/cq-cli
+RUN pip install git+file:///app/cq-cli@server_hotfix_01
+
+COPY cadorchestrator/ /app/cadorchestrator
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g npm
+
+WORKDIR /app/cadorchestrator
+RUN git checkout server_hotfix_01
+
+WORKDIR /app/cadorchestrator/js/cadorchestrator-app
+RUN npm install && \
+    npm run build
+
+WORKDIR /app/cadorchestrator
+RUN pip install -e .
+
+WORKDIR /app
+COPY nimble/ /app/nimble
+RUN pip install git+file:///app/nimble@server_hotfix_01 && \
+    pip install scad2gltf && \
+    pip list && \
+    ls -la
+
+EXPOSE 8000
+ENV DISPLAY=:99
+
+WORKDIR /app/nimble
+RUN ls -la && \ 
+    gen_nimble_conf_options && \
+    pip install -e .
+    
+
+WORKDIR /app/nimble
+RUN ls -la && \
+    xvfb-run --server-args="-screen 0 1024x768x24" cadorchestrator --headless generate '{"device-ids": ["Raspberry_Pi_4B"]}'
+
+WORKDIR /app
+COPY cadorch_devops/docker/entrypoint.sh /app/entrypoint.sh
+RUN ["chmod","+x","entrypoint.sh"]
+
+WORKDIR /app/nimble
+RUN ["rm", "-rf", "_cache_"]
+ENTRYPOINT ["/app/entrypoint.sh"]
