@@ -25,6 +25,7 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Use cache for Python dependencies
+
 COPY cq-cli-nimble/ /app/cq-cli
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-cache-dir git+file:///app/cq-cli@server_hotfix_01
